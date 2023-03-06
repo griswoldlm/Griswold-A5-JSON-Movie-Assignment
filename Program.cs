@@ -9,13 +9,16 @@ namespace Griswold_A4_Movie_Library_Assignment
 {
     public class Program 
     {
-        static void Main(string[] args) 
+        static void Main(string[] args)
         {
 
             // path to movie data file
              
 
             MovieInformation minfo = new MovieInformation();
+            minfo.MovieIDs = "0001";
+            minfo.MovieTitles = "Secret Life of Pets";
+            minfo.MovieGenres = "Comedy";
 
             string jsonFile = JsonConvert.SerializeObject(minfo);
 
@@ -24,12 +27,26 @@ namespace Griswold_A4_Movie_Library_Assignment
             using (var sw = new StreamWriter(file, true))
             {
                 sw.WriteLine(jsonFile.ToString());
-                sw.Close();
             }
 
-            List<Program> _movie = new List<Program>();
+            // Read and deserialize
+            string json = @"{
+            'MovieID:' '0001',
+            'MovieTitle:' 'Secret Life of Pets',
+            'MovieGenres:' ['Comedy']
+            }";
 
-            _movie.Add(new Program());
+            MovieInformation m = JsonConvert.DeserializeObject<MovieInformation>(json);
+
+            string movie = m.MovieTitles;
+
+
+
+
+
+            //List<Program> _movie = new List<Program>();
+
+            //_movie.Add(new Program());
 
 
 
@@ -96,7 +113,7 @@ namespace Griswold_A4_Movie_Library_Assignment
                             }
                             // Contains quotes and commas -- still need to replace | w/ comma(s) b/c csv file
                             else
-                            {
+                            { 
                                 // Find movieID 
                                 MovieIDs.Add(UInt64.Parse(line.Substring(0, idx - 1)));
 
