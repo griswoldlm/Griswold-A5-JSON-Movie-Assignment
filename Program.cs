@@ -96,7 +96,7 @@ namespace Griswold_A4_Movie_Library_Assignment
                             }
                             // Contains quotes and commas -- still need to replace | w/ comma(s) b/c csv file
                             else
-                            {
+                            { 
                                 // Find movieID 
                                 MovieIDs.Add(UInt64.Parse(line.Substring(0, idx - 1)));
 
