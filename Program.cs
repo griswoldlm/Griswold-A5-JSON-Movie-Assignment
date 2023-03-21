@@ -12,16 +12,17 @@ namespace Griswold_A4_Movie_Library_Assignment
         static void Main(string[] args)
         {
 
-            // path to movie data file
+            
              
 
             MovieInformation minfo = new MovieInformation();
-            minfo.MovieIDs = "0001";
-            minfo.MovieTitles = "Secret Life of Pets";
-            minfo.MovieGenres = "Comedy";
+            minfo.MovieIDs = "0002";
+            minfo.MovieTitles = "Secret Life of Pets 2";
+            minfo.MovieGenres = "Animation, Comedy";
 
             string jsonFile = JsonConvert.SerializeObject(minfo);
 
+            // path to movie data file
             string file = $"{Environment.CurrentDirectory}/movies.json";
 
             using (var sw = new StreamWriter(file, true))
@@ -30,24 +31,11 @@ namespace Griswold_A4_Movie_Library_Assignment
             }
 
             // Read and deserialize
-            string json = @"{
-            'MovieID:' '0001',
-            'MovieTitle:' 'Secret Life of Pets',
-            'MovieGenres:' ['Comedy']
-            }";
+            string json = @"{ 'MovieID': '0002', 'MovieTitle': 'Secret Life of Pets 2', 'MovieGenres': 'Animation, Comedy' }";
 
             MovieInformation m = JsonConvert.DeserializeObject<MovieInformation>(json);
 
             string movie = m.MovieTitles;
-
-
-
-
-
-            //List<Program> _movie = new List<Program>();
-
-            //_movie.Add(new Program());
-
 
 
             // Make sure file exists
@@ -62,9 +50,11 @@ namespace Griswold_A4_Movie_Library_Assignment
                             sw.WriteLine(jsonFile.ToString());
                             sw.Close();
                         }
-                }
+                        }
+                    }
+                
 
-                }
+                
                 else
                 {
                     string choice;
@@ -79,7 +69,7 @@ namespace Griswold_A4_Movie_Library_Assignment
                         choice = Console.ReadLine();
 
                         // Lists to be populated with new movies -- eventually turn into classes, methods, etc.
-                        List<UInt64> MovieIDs = new List<UInt64>();
+                        List<string> MovieIDs = new List<string>();
                         List<string> MovieTitles = new List<string>();
                         List<string> MovieGenres = new List<string>();
 
@@ -93,45 +83,6 @@ namespace Griswold_A4_Movie_Library_Assignment
                         {
                             string line = sr.ReadLine();
 
-                            // Look for quotes that surround commas in movie titles -- use IndexOf
-                            int idx = line.IndexOf('"');
-
-                            // No quote no comma
-                            if (idx == -1)
-                            {
-                                // Split with commma, make as arrays like ticketing program
-                                string[] movieDetails = line.Split(',');
-
-                                // Array 0 - movie id
-                                MovieIDs.Add(UInt64.Parse(movieDetails[0]));
-
-                                // Array 1 - movie title
-                                MovieTitles.Add(movieDetails[1]);
-
-                                // Array 2 - movie genre(s) -- need to replace | w/ comma(s) b/c csv file
-                                MovieGenres.Add(movieDetails[2].Replace("|", ", "));
-                            }
-                            // Contains quotes and commas -- still need to replace | w/ comma(s) b/c csv file
-                            else
-                            { 
-                                // Find movieID 
-                                MovieIDs.Add(UInt64.Parse(line.Substring(0, idx - 1)));
-
-                                // Remove movieID and find first quote
-                                line = line.Substring(idx + 1);
-
-                                // Find next quote
-                                idx = line.IndexOf('"');
-
-                                // Find whole movie title
-                                MovieTitles.Add(line.Substring(0, idx));
-
-                                // Remove whole movie title and last comma
-                                line = line.Substring(idx + 2);
-
-                                // Replace all | w/ commas in genres b/c csv file
-                                MovieGenres.Add(line.Replace("|", ", "));
-                            }
                         }
                         // Always close!!
                         sr.Close();
@@ -154,7 +105,7 @@ namespace Griswold_A4_Movie_Library_Assignment
                             else
                             {
                                 // New movie id - use max value + 1 -- similiar to sql window function LAST_VALUE
-                                UInt64 movieId = MovieIDs.Max() + 1;
+                                string movieId = MovieIDs.Max() + 1;
 
                                 // Ask for movie genre(s)
                                 List<string> genres = new List<string>();
@@ -186,31 +137,17 @@ namespace Griswold_A4_Movie_Library_Assignment
                                 // Display genre(s) with | as delimiter
                                 string genresString = string.Join("|", genres);
 
-                                // Put quotes around commma(s) in movie title
-                                movieTitle = movieTitle.IndexOf(',') != -1 ? $"\"{movieTitle}\"" : movieTitle;
-
                                 // Display all movie info when addition's complete
                                 Console.WriteLine($"{movieId}, {movieTitle}, {genresString}");
 
-                                // Create file from data and follow csv requirements
-                                StreamWriter sw = new StreamWriter(file, true);
+                                //// Create file from data and follow csv requirements
+                                //StreamWriter sw = new StreamWriter(file, true);
 
-                                // NOT WORKING - Says /movies.csv is already in use
-                                //List<Program> _data = new List<Program>();
 
-                                //_data.Add(new Program());
-                                //using (StreamWriter file1 = File.CreateText($"{Environment.CurrentDirectory}/movies.csv"))
-                                //{
-                                //    JsonSerializer serializer = new JsonSerializer();
+                                //sw.WriteLine($"{movieId}, {movieTitle}, {genresString}");
 
-                                //    // Serialize object directly into file stream
-                                //    serializer.Serialize(file1, _data);
-                                //}
-
-                                sw.WriteLine($"{movieId}, {movieTitle}, {genresString}");
-
-                                // ALWAYS CLOSE!!!
-                                sw.Close();
+                                //// ALWAYS CLOSE!!!
+                                //sw.Close();
 
                                 // Add movie info to list
                                 MovieIDs.Add(movieId);
@@ -231,9 +168,9 @@ namespace Griswold_A4_Movie_Library_Assignment
                             {
                                 var line = sr1.ReadLine();
                                 string[] arr = line.Split(',');
-                                Console.WriteLine($"ID: {arr[0]}, Title: {arr[1]}, Genre(s): {arr[2]}");
+                                Console.WriteLine($"MovieID: {arr[0]}, MovieTitle: {arr[1]}, MovieGenres: {arr[2]}");
                             }
-
+                        
                         }
                         sr.Close(); // Always close!!!
 
