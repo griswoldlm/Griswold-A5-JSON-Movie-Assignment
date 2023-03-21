@@ -5,7 +5,6 @@ using System.Xml.Linq;
 using System.IO;
 using Griswold_A5_JSON_Movie_Assignment;
 
-
 namespace Griswold_A4_Movie_Library_Assignment 
 {
     public class Program 
@@ -140,15 +139,6 @@ namespace Griswold_A4_Movie_Library_Assignment
 
                                 // Display all movie info when addition's complete
                                 Console.WriteLine($"{movieId}, {movieTitle}, {genresString}");
-
-                                //// Create file from data and follow csv requirements
-                                //StreamWriter sw = new StreamWriter(file, true);
-
-
-                                //sw.WriteLine($"{movieId}, {movieTitle}, {genresString}");
-
-                                //// ALWAYS CLOSE!!!
-                                //sw.Close();
 
                                 // Add movie info to list
                                 MovieIDs.Add(movieId);
